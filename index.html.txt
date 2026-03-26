@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Besto 💛</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  background: #f8e1f4;
+}
+
+.page {
+  width: 100%;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  animation: fadeZoom 0.5s ease;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.active { display: flex; }
+
+@keyframes fadeZoom {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.box {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 320px;
+}
+
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #ffb6d9;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+/* NAV */
+.nav {
+  position: fixed;
+  bottom: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.hidden { display: none; }
+
+/* PASSWORD PAGE */
+#lockPage {
+  background: black;
+  color: white;
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.card {
+  min-width: 70px;
+  height: 110px;
+  background: #ffd6ec;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+/* IMAGE VIEW */
+#imageView {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url('https://i.ibb.co/607Z2w3C/bg.jpg') center/cover no-repeat;
+  animation: fadeZoom 0.5s ease;
+}
+
+#imageView img {
+  width: 85%;
+  border-radius: 25px;
+  border: 6px solid white;
+}
+
+.closeBtn {
+  margin-top: 20px;
+}
+
+/* SPARKLES */
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sparkle 0.6s linear;
+}
+
+@keyframes sparkle {
+  to { transform: translateY(-20px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<iframe width="0" height="0" src="https://www.youtube.com/embed/1X5Qy8Zc1iM?autoplay=1&loop=1&playlist=1X5Qy8Zc1iM" allow="autoplay"></iframe>
+
+<!-- PASSWORD -->
+<div id="lockPage" class="page active">
+  <div class="box">
+    <h2>Enter Password 🔒</h2>
+    <input type="password" id="pass">
+    <button onclick="checkPass()">Unlock</button>
+  </div>
+</div>
+
+<!-- WELCOME -->
+<div id="page1" class="page">
+  <h1>My besto friendooooooo 💛</h1>
+  <p>Just something small I made for you</p>
+  <button onclick="nextPage()">Start</button>
+</div>
+
+<!-- MEMORIES -->
+<div id="page2" class="page">
+  <h2>Memories 📸</h2>
+  <div class="cards">
+    <div class="card" onclick="openImage('https://i.ibb.co/GfJxg75V/img1.jpg','That day we...')"></div>
+    <div class="card" onclick="openImage('https://i.ibb.co/DPdQnhdS/img2.jpg','Our moment...')"></div>
+  </div>
+</div>
+
+<!-- WHY -->
+<div id="page3" class="page">
+  <div class="box">
+    <h2>Why you're special 🌟</h2>
+    <p>(You’ll write this)</p>
+  </div>
+</div>
+
+<!-- MESSAGE -->
+<div id="page4" class="page">
+  <div class="box">
+    <h2>Message 💌</h2>
+    <p>(You’ll write this)</p>
+  </div>
+</div>
+
+<!-- IMAGE VIEW -->
+<div id="imageView">
+  <h3 id="imgTitle"></h3>
+  <img id="imgSrc">
+  <button class="closeBtn" onclick="closeImage()">Close</button>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button onclick="prevPage()">⬅</button>
+  <button onclick="nextPage()">➡</button>
+</div>
+
+<script>
+let current = 0;
+const pages = ["lockPage","page1","page2","page3","page4"];
+
+function showPage(i){
+  pages.forEach(p=>document.getElementById(p).classList.remove("active"));
+  document.getElementById(pages[i]).classList.add("active");
+}
+
+function nextPage(){ if(current<pages.length-1){current++;showPage(current);} }
+function prevPage(){ if(current>0){current--;showPage(current);} }
+
+function checkPass(){
+  let val=document.getElementById("pass").value.toLowerCase();
+  if(val==="bauni"){ current=1; showPage(current); }
+  else alert("Wrong password 👀");
+}
+
+/* IMAGE VIEW */
+function openImage(src,title){
+  document.getElementById("imageView").style.display="flex";
+  document.getElementById("imgSrc").src=src;
+  document.getElementById("imgTitle").innerText=title;
+  document.querySelector(".nav").classList.add("hidden");
+}
+
+function closeImage(){
+  document.getElementById("imageView").style.display="none";
+  document.querySelector(".nav").classList.remove("hidden");
+}
+
+/* SPARKLES */
+document.addEventListener("click", e=>{
+  let s=document.createElement("div");
+  s.className="sparkle";
+  s.style.left=e.pageX+"px";
+  s.style.top=e.pageY+"px";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),600);
+});
+</script>
+
+</body>
+</html>
